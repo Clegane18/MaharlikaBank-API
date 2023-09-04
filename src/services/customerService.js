@@ -21,6 +21,7 @@ const getAllCustomers = async () => {
 const getCustomerById = async ({ customerId }) => {
     try{
         const customer = await Customer.findByPk(customerId);
+
         if(!customer){
             throw {
                 status: 404,
@@ -40,12 +41,15 @@ const getCustomerById = async ({ customerId }) => {
 const updateCustomerById = async ({ customerId, email, password, profilePicture }) => {
     try{
         const customer = await Customer.findByPk(customerId);
+
         if(!customer){
             throw {
                 status: 404,
                 data: { message: `Customer not found with ID: ${customerId}` }
             };
         }
+
+        console.log('Before Update - Customer Profile Picture:', customer.profilePicture);
         if(email) customer.email = email;
 
         if(password){
@@ -54,7 +58,11 @@ const updateCustomerById = async ({ customerId, email, password, profilePicture 
             customer.password = hashedPassword;
         }
 
-        if(profilePicture) customer.profilePicture = profilePicture;
+        if (profilePicture) {
+            const filename = profilePicture.filename;
+
+            customer.profilePicture = filename;
+        }
 
         const token = jwt.sign({ email: customer.email }, 'secret_key');
 
@@ -73,6 +81,7 @@ const updateCustomerById = async ({ customerId, email, password, profilePicture 
 const deleteCustomerById = async ({ customerId }) => {
     try{
         const customer = await Customer.findByPk(customerId);
+
         if(!customer){
             throw{
                 status: 404,

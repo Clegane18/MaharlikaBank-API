@@ -1,4 +1,3 @@
-// models/customer.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('./db');
 
@@ -19,10 +18,6 @@ const Customer = sequelize.define('Customer', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  profilePicture: {
-    type: DataTypes.BLOB,
-    allowNull: true,
-  },
   currentBalance: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -37,5 +32,9 @@ const Customer = sequelize.define('Customer', {
     allowNull: false,
     defaultValue: DataTypes.NOW,
   },
+  profilePicture: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  }
 });
 module.exports = Customer;

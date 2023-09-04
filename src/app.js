@@ -10,7 +10,7 @@ const errHandler = require('./middlewares/errHandler');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(errHandler);
-console.log('Im at the app.js');
+
 (async () => {
   try {
     await sequelize.sync({ force: false });

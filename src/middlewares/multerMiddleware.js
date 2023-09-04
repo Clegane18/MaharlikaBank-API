@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
     const fileExtension = file.originalname.split('.').pop().toLowerCase();
     const filename = `${userEmail}_profilePicture-${uniqueSuffix}.${fileExtension}`;
-    req.filename = filename; // Store the filename in the request object for later use in the route handler
+    req.filename = filename; 
     cb(null, filename);
   }
 });
