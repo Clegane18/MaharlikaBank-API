@@ -1,6 +1,6 @@
 const Customer = require('../database/customerModel');
 const TransactionHistory = require('../database/transactionHistoryModel');
-const { generateTransactionReference } = require('../utils/transactionUtils');
+const { generateTransactionReference, generateTransactionReceipt } = require('../utils/transactionUtils');
 
 
 const deposit = async ({ customerId, depositAmount }) => {
@@ -37,7 +37,7 @@ const deposit = async ({ customerId, depositAmount }) => {
                 transactionType: 'Deposit',
                 transactionAmount: depositAmount,
                 transactionStatus: 'Failed',
-                description: 'Deposit amount must be a number',
+                description: 'Deposit amount must be  number',
                 transactionReference: generateTransactionReference(customerId),
                 timeStamp: new Date(),
             });
@@ -63,13 +63,18 @@ const deposit = async ({ customerId, depositAmount }) => {
         customer.currentBalance += depositAmount;
         await customer.save();
 
+        const transactionReceipt = generateTransactionReceipt(transaction);
+
         return{
             status: 200,
-            data: { message: `Deposit successful. The updated balance is ${customer.currentBalance}` },
+            data: {
+                message: `Deposit successful. The updated balance is ${customer.currentBalance}`,
+                TransactionReceipt: transactionReceipt,
+            },
         };
 
     } catch (error){
-        console.error('Error in deposit service', error);
+        console.error('Error in deposit service:', error);
         throw error;
     };
 };
@@ -151,13 +156,18 @@ const withdraw = async ({ customerId, withdrawAmount }) => {
         customer.currentBalance -= withdrawAmount;
         await customer.save();
 
+        const transactionReceipt = generateTransactionReceipt(transaction);
+
         return{
             status: 200,
-            data: { message: `Withdrawal successful. The update balance is ${customer.currentBalance}` },
+            data: {
+                message: `Withdrawal successful. The update balance is ${customer.currentBalance}`,
+                TransactionReceipt: transactionReceipt,
+            },
         };
 
     } catch(error){
-        console.error('Error in withdrawal service', error);
+        console.error('Error in withdrawal service:', error);
         throw error;
     };
 };
@@ -185,14 +195,20 @@ const checkBalance = async ({ customerId }) =>{
             timeStamp: new Date(),
         });
 
+        const transactionReceipt = generateTransactionReceipt(transaction);
+
         return{
             status: 200,
-            data: { message: `Your current balance is: ${customer.currentBalance}` },
+            data: {
+                message: `Your current balance is: ${customer.currentBalance}`,
+                TransactionReceipt: transactionReceipt,
+            },
         };
 
     } catch(error){
-        console.error('Error in checkBalance service', error);
+        console.error('Error in checkBalance service:', error);
         throw error;
     };
 };
+
 module.exports = { deposit, withdraw, checkBalance };

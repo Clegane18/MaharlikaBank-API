@@ -8,12 +8,14 @@ const getAllCustomers = async () => {
         const customers = await Customer.findAll({
             order: [['id', 'ASC']],
         });
+
         return{
             status: 200,
             data: customers,
         };
+        
     } catch (error){
-        console.error('Error retrieving customers', error);
+        console.error('Error retrieving customers:', error);
         throw error;
     }
 };
@@ -49,7 +51,6 @@ const updateCustomerById = async ({ customerId, email, password, profilePicture 
             };
         }
 
-        console.log('Before Update - Customer Profile Picture:', customer.profilePicture);
         if(email) customer.email = email;
 
         if(password){

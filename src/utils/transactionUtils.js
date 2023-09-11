@@ -1,13 +1,13 @@
-function generateTransactionReference(customerId) {
+const generateTransactionReference = (customerId) => {
     const timestamp = Date.now();
     const randomPart = generateRandomAlphanumericString(6); 
 
     const reference = `${customerId}-${timestamp}-${randomPart}`;
 
     return reference;
-}
+};
 
-function generateRandomAlphanumericString(length) {
+const generateRandomAlphanumericString = (length) => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let randomString = '';
 
@@ -17,6 +17,20 @@ function generateRandomAlphanumericString(length) {
     }
 
     return randomString;
-}
+};
 
-module.exports = { generateTransactionReference, generateRandomAlphanumericString };
+const generateTransactionReceipt = (transaction) => {
+    const transactionReceipt = {
+        customerId: transaction.customerId,
+        transactionType: transaction.transactionType,
+        transactionAmount: transaction.transactionAmount,
+        description: transaction.description,
+        transactionReference: transaction.transactionReference,
+        timeStamp: transaction.timeStamp,
+    };
+
+    return transactionReceipt;
+
+};
+
+module.exports = { generateTransactionReference, generateRandomAlphanumericString, generateTransactionReceipt };
