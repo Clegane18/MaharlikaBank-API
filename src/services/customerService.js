@@ -1,6 +1,11 @@
 const Customer  = require ('../database/customerModel');
 const bcrypt = require ('bcrypt');
 const jwt = require ('jsonwebtoken');
+const { createTokenWithExpiration } = require ('../utils/customerUtils');
+const { SecretKey } = require ('../middlewares/jwtMiddleware');
+const secretKey = SecretKey;
+
+
 
 
 const getAllCustomers = async () => {
@@ -65,7 +70,7 @@ const updateCustomerById = async ({ customerId, email, password, profilePicture 
             customer.profilePicture = filename;
         }
 
-        const token = jwt.sign({ email: customer.email }, 'secret_key');
+        const token = createTokenWithExpiration({ email: customer.email }, '15m');
 
         await customer.save();
         return{
@@ -112,12 +117,12 @@ const signIn = async ({ email, password, currentBalance, profilePicture }) => {
             profilePicture: profilePicture ? `${email}_profilePicture_${profilePicture.filename}` : null,
         });
 
-        const userToken = jwt.sign({ email: newCustomer.email }, 'secret_key');
-
+        // const token = jwt.sign({ email: newCustomer.email }, secretKey );
+        const token = createTokenWithExpiration({ email: newCustomer.email }, '30m')
         return{
             status: 200,
             message: 'Customer created successfully',
-            token: userToken,
+            token: token,
         }
     } catch (error){
         console.error('Error in signIn service:', error);
@@ -140,12 +145,13 @@ const logIn = async ({ email, password }) => {
         const isPasswordMatch = await bcrypt.compare(password, hashedPassword);
 
         if(isPasswordMatch){
-            const token = jwt.sign({
-                id: customer.id,
+            
+            const token = createTokenWithExpiration({
+                id: customer.id, 
                 email: customer.email,
                 password: customer.password,
-                currentBalance: customer.currentBalance
-            }, 'secret_key');
+                currentBalance: customer.currentBalance 
+            }, '30m')
 
             return{
                 status: 200,

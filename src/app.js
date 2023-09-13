@@ -1,9 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const userRouter = require('./routers/usersRouter');
 const transactionsRouter = require('./routers/transactionsRouter');
 const transactionHistoryRouter = require('./routers/transactionHistoryRouter');
-const sequelize = require('./database/db');
+const sequelize = require('./database/db'); 
 const errHandler = require('./middlewares/errHandler');
 
 

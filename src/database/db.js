@@ -4,7 +4,8 @@ module.exports = sequelize = new Sequelize('maharlikaBankDB', 'postgres', 'webde
   host: 'localhost',
   dialect: 'postgres',
   timezone: '+08:00',
-  logging: true, 
+   logging: false, 
+  //Set the logging to true if need for debugging purposes
 });
 
 module.exports = sequelize;
