@@ -117,7 +117,6 @@ const signIn = async ({ email, password, currentBalance, profilePicture }) => {
             profilePicture: profilePicture ? `${email}_profilePicture_${profilePicture.filename}` : null,
         });
 
-        // const token = jwt.sign({ email: newCustomer.email }, secretKey );
         const token = createTokenWithExpiration({ email: newCustomer.email }, '30m')
         return{
             status: 200,
@@ -151,7 +150,7 @@ const logIn = async ({ email, password }) => {
                 email: customer.email,
                 password: customer.password,
                 currentBalance: customer.currentBalance 
-            }, '30m')
+            }, '15m')
 
             return{
                 status: 200,
@@ -170,5 +169,25 @@ const logIn = async ({ email, password }) => {
     };
 };
 
+const calculatesAllTotalBalance = async () => {
+    try{
+        const allCustomersCurrentBalance = await Customer.findAll()
+        let totalBalance = 0;
 
-module.exports = {getAllCustomers, getCustomerById, updateCustomerById, deleteCustomerById, signIn, logIn};
+        for(const customer of allCustomersCurrentBalance) {
+            totalBalance += customer.currentBalance;
+        };
+
+        return {
+            status: 200,
+            message: 'Success in retrieving the Total Balance of all Customers.',
+            CustomersTotalBalance: totalBalance.toLocaleString(),
+        };
+    } catch (error) {
+        console.error('Error in fetching all Customers current balance', error);
+        throw error;
+    };
+};
+
+
+module.exports = {getAllCustomers, getCustomerById, updateCustomerById, deleteCustomerById, signIn, logIn, calculatesAllTotalBalance};

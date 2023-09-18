@@ -29,3 +29,6 @@ dist/
 
 #Secret key
 .env
+
+#Lesson Plan
+Lesson Plan

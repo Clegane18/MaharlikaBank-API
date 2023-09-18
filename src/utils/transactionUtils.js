@@ -1,3 +1,4 @@
+const TransactionHistory = require('../database/transactionHistoryModel');
 const generateTransactionReference = (customerId) => {
     const timestamp = Date.now();
     const randomPart = generateRandomAlphanumericString(6); 
@@ -33,4 +34,23 @@ const generateTransactionReceipt = (transaction) => {
 
 };
 
-module.exports = { generateTransactionReference, generateRandomAlphanumericString, generateTransactionReceipt };
+const createTransactionHistory = async ({ customerId, transactionType, transactionAmount, transactionStatus, description }) => {
+    try {
+        const transactionReference = generateTransactionReference(customerId);
+        const transaction = await TransactionHistory.create({
+            customerId: customerId,
+            transactionType: transactionType,
+            transactionAmount: transactionAmount,
+            transactionStatus: transactionStatus,
+            description: description,
+            transactionReference: transactionReference,
+            timeStamp: new Date(), 
+        });
+        return transaction;
+    } catch (error) {
+        console.error('Error creating transaction history:', error);
+        throw error;
+    }
+};
+
+module.exports = { generateTransactionReference, generateRandomAlphanumericString, generateTransactionReceipt, createTransactionHistory };

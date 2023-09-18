@@ -8,9 +8,7 @@ It's great that you have a working backend for your MaharlikaBank API, and you'r
    - Implement strong authentication mechanisms, like multi-factor authentication (MFA) for added security.
    - Regularly update your dependencies and libraries to patch any security vulnerabilities.
 
-4. **Transaction History**: Add a feature that allows users to view their transaction history. This will help customers keep track of their financial activities.
 
-5. **Account Verification**: Implement an account verification process to ensure that customers are providing accurate information during account creation.
 
 6. **Email Notifications**: Set up email notifications for various account activities, such as successful login, deposits, withdrawals, and account updates. This will enhance user engagement and security.
 

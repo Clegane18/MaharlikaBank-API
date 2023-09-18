@@ -28,7 +28,7 @@ const updateCustomerById = async (req, res) => {
             profilePicture: req.file
     });
         return res.status(result.status).json(result);
-    } catch (error){
+    } catch (error) {
         return customerControllerErrorHandler(res, error, 'Error updating customer data');
     };
 };
@@ -37,7 +37,7 @@ const deleteCustomerById = async (req, res) => {
     try{
         const result = await customerService.deleteCustomerById({ customerId: req.params.id });
         return res.status(result.status).json(result);
-    } catch (error){
+    } catch (error) {
         return customerControllerErrorHandler(res, error, 'Error deliting customer by id');
     };
 };
@@ -51,7 +51,7 @@ const signIn = async (req, res) => {
             profilePicture: req.file
     });
         return res.status(result.status).json(result);
-    } catch (error){
+    } catch (error) {
         return customerControllerErrorHandler(res, error, 'Error creating customer');
     };
 };  
@@ -63,9 +63,18 @@ const logIn = async (req, res) => {
             password: req.body.password,
         });
         return res.status(result.status).json(result);
-    } catch(error){
+    } catch (error) {
         return customerControllerErrorHandler(res, error, 'Error in logging in');
     };
 };
 
-module.exports = { getAllCustomers, getCustomerById, updateCustomerById, deleteCustomerById, signIn, logIn};
+const calculatesAllTotalBalance = async (req, res) => {
+    try{
+        const result = await customerService.calculatesAllTotalBalance();
+        return res.status(result.status).json(result);
+    } catch (error) {
+        return customerControllerErrorHandler(res, error, 'Error in calculating all total balance of customer.');
+    }
+};
+
+module.exports = { getAllCustomers, getCustomerById, updateCustomerById, deleteCustomerById, signIn, logIn, calculatesAllTotalBalance};

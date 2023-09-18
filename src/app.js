@@ -8,7 +8,6 @@ const sequelize = require('./database/db');
 const errHandler = require('./middlewares/errHandler');
 
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(errHandler);
