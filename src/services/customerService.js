@@ -1,11 +1,6 @@
 const Customer  = require ('../database/customerModel');
 const bcrypt = require ('bcrypt');
-const jwt = require ('jsonwebtoken');
-const { createTokenWithExpiration } = require ('../utils/customerUtils');
-const { SecretKey } = require ('../middlewares/jwtMiddleware');
-const secretKey = SecretKey;
-
-
+const { createTokenWithExpiration } = require ('../utils/token.util');
 
 
 const getAllCustomers = async () => {
@@ -73,6 +68,7 @@ const updateCustomerById = async ({ customerId, email, password, profilePicture 
         const token = createTokenWithExpiration({ email: customer.email }, '15m');
 
         await customer.save();
+        
         return{
             status: 200,
             message: 'Customer information updated successfully',
@@ -117,10 +113,11 @@ const signIn = async ({ email, password, currentBalance, profilePicture }) => {
             profilePicture: profilePicture ? `${email}_profilePicture_${profilePicture.filename}` : null,
         });
 
-        const token = createTokenWithExpiration({ email: newCustomer.email }, '30m')
+        const token = createTokenWithExpiration({ email: newCustomer.email }, '30m');
+
         return{
             status: 200,
-            message: 'Customer created successfully',
+            message: 'Customer account created successfully',
             token: token,
         }
     } catch (error){
@@ -136,7 +133,7 @@ const logIn = async ({ email, password }) => {
         if(!customer){
             throw{
                 status: 404,
-                data: { message: 'Customer not found' },
+                data: { message: 'Customer email not found' },
             };
         };
 
@@ -144,9 +141,9 @@ const logIn = async ({ email, password }) => {
         const isPasswordMatch = await bcrypt.compare(password, hashedPassword);
 
         if(isPasswordMatch){
-            
+
             const token = createTokenWithExpiration({
-                id: customer.id, 
+                id: customer.id,
                 email: customer.email,
                 password: customer.password,
                 currentBalance: customer.currentBalance 

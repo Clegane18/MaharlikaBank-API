@@ -1,6 +1,5 @@
 const Customer = require('../database/customerModel');
-const TransactionHistory = require('../database/transactionHistoryModel');
-const { generateTransactionReference, generateTransactionReceipt, createTransactionHistory } = require('../utils/transactionUtils');
+const { generateTransactionReceipt, createTransactionHistory } = require('../utils/transaction.utils');
 
 
 const deposit = async ({ customerId, depositAmount }) => {

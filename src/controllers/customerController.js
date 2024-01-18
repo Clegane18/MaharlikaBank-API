@@ -16,7 +16,7 @@ const getCustomerById = async (req, res) => {
         return res.status(result.status).json(result.data);
     } catch (error) {
         return customerControllerErrorHandler(res, error, 'Error fetching customer by id');
-    }    
+    };
 };
 
 const updateCustomerById = async (req, res) => {

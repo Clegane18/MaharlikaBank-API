@@ -1,4 +1,5 @@
 const TransactionHistory = require('../database/transactionHistoryModel');
+
 const generateTransactionReference = (customerId) => {
     const timestamp = Date.now();
     const randomPart = generateRandomAlphanumericString(6); 
