@@ -1,6 +1,9 @@
 const { Sequelize, DataTypes } = require('sequelize');
+require('dotenv').config(); 
 
-module.exports = sequelize = new Sequelize('maharlikaBankDB', 'postgres', 'webdeveloper18', {
+const dbPassword = process.env.DB_PASSWORD;
+
+module.exports = sequelize = new Sequelize('maharlikaBankDB', 'postgres', dbPassword, {
   host: 'localhost',
   dialect: 'postgres',
   timezone: '+08:00',
@@ -8,4 +11,3 @@ module.exports = sequelize = new Sequelize('maharlikaBankDB', 'postgres', 'webde
   //Set the logging to true if need for debugging purposes
 });
 
-module.exports = sequelize;
